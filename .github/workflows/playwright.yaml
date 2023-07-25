@@ -18,9 +18,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build # Make sure your package.json has a build script
-
       - name: Install Playwright dependencies
         run: npx playwright install-deps
 
