@@ -1,0 +1,35 @@
+name: Playwright Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build # Make sure your package.json has a build script
+
+      - name: Install Playwright dependencies
+        run: npx playwright install-deps
+
+      - name: Run tests
+        run: npx playwright test test.list.ts --project=chromium --workers 1
+
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Playwright-test-result
+          path: |
+            playwright-report
